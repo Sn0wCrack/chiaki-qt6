@@ -101,6 +101,7 @@ jobs:
           target: 'desktop'
           arch: 'win64_msvc2019_64'
           modules: 'qtmultimedia'
+          cache: true
 
       - name: Setup MSVC
         uses: ilammy/msvc-dev-cmd@v1
