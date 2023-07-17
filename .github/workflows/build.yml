@@ -52,19 +52,34 @@ jobs:
       - name: Configure Chiaki
         working-directory: chiaki-qt6
         run: |
-          cmake `
-          -S . `
-          -B build `
-          -DCMAKE_BUILD_TYPE=Release  `
-          -DCHIAKI_ENABLE_CLI=OFF `
-          -DCHIAKI_GUI_ENABLE_SDL_GAMECONTROLLER=ON `
-          -DPYTHON_EXECUTABLE="${{ env.pythonLocation }}\python.exe" `
+          cmake \
+          -S . \
+          -B build \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DCHIAKI_ENABLE_CLI=OFF \
+          -DCHIAKI_GUI_ENABLE_SDL_GAMECONTROLLER=ON \
+          -DPYTHON_EXECUTABLE="${{ env.pythonLocation }}\python.exe" \
           -DCMAKE_PREFIX_PATH="/usr/local/opt/openssl@1.1;${{ env.Qt6_Dir }}"
 
       - name: Build Chiaki
         working-directory: chiaki-qt6
         run: |
           cmake --build build --config Release --clean-first --target chiaki
+          
+      - name: Prepare Qt deployment package
+        working-directory: chiaki-qt6
+        run: |
+          mkdir Chiaki-mac-Qt6
+          cp -a build/gui/chiaki.app Chiaki-mac-Qt6
+          macdeployqt --no-translations Chiaki-mac-Qt6\chiaki.app -dmg
+          
+      - name: Upload Chiaki Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Chiaki-win_x64-VC-Qt6-Release
+          path: Chiaki-mac-Qt6\chiaki.dmg
+          if-no-files-found: error
+          retention-days: 1
 
   build-win_x64: # only win_x64 so far :)
     name: Build Chiaki win_x64 (VC)
@@ -206,15 +221,15 @@ jobs:
       - name: Prepare Qt deployment package
         working-directory: chiaki-qt6
         run: |
-          mkdir Chiaki-VC-Qt6
-          cp build\gui\Release\chiaki.exe Chiaki-VC-Qt6
-          cp "${{ github.workspace }}\openssl\x64\bin\libcrypto-1_1-x64.dll" Chiaki-VC-Qt6
-          cp "${{ github.workspace }}\openssl\x64\bin\libssl-1_1-x64.dll" Chiaki-VC-Qt6
-          cp "${{ github.workspace }}\SDL2\lib\x64\SDL2.dll" Chiaki-VC-Qt6
-          cp "${{ github.workspace }}\ffmpeg\bin\swresample-4.dll" Chiaki-VC-Qt6
-          cp "${{ github.workspace }}\ffmpeg\bin\avcodec-59.dll" Chiaki-VC-Qt6
-          cp "${{ github.workspace }}\ffmpeg\bin\avutil-57.dll" Chiaki-VC-Qt6
-          windeployqt.exe --no-translations Chiaki-VC-Qt6\chiaki.exe
+          mkdir Chiaki-Win-Qt6
+          cp build\gui\Release\chiaki.exe Chiaki-Win-Qt6-Qt6
+          cp "${{ github.workspace }}\openssl\x64\bin\libcrypto-1_1-x64.dll" Chiaki-Win-Qt6-Qt6
+          cp "${{ github.workspace }}\openssl\x64\bin\libssl-1_1-x64.dll" Chiaki-Win-Qt6-Qt6
+          cp "${{ github.workspace }}\SDL2\lib\x64\SDL2.dll" Chiaki-Win-Qt6-Qt6
+          cp "${{ github.workspace }}\ffmpeg\bin\swresample-4.dll" Chiaki-Win-Qt6-Qt6
+          cp "${{ github.workspace }}\ffmpeg\bin\avcodec-59.dll" Chiaki-Win-Qt6-Qt6
+          cp "${{ github.workspace }}\ffmpeg\bin\avutil-57.dll" Chiaki-Win-Qt6-Qt6
+          windeployqt.exe --no-translations Chiaki-Win-Qt6-Qt6\chiaki.exe
 
       - name: Package Chiaki
         working-directory: chiaki-qt6
