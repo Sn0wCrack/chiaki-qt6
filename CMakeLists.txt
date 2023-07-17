@@ -91,13 +91,16 @@ endif()
 if(CHIAKI_LIB_ENABLE_MBEDTLS)
 	add_definitions(-DCHIAKI_LIB_ENABLE_MBEDTLS)
 	if(CHIAKI_LIB_MBEDTLS_EXTERNAL_PROJECT)
+		set(FETCHCONTENT_QUIET CACHE BOOL FALSE)
 		include(FetchContent)
-		set(ENABLE_TESTING OFF)
-		set(USE_SHARED_MBEDTLS_LIBRARY OFF)
+		set(ENABLE_TESTING CACHE INTERNAL OFF)
+		set(ENABLE_PROGRAMS CACHE INTERNAL OFF)
+		set(USE_SHARED_MBEDTLS_LIBRARY CACHE INTERNAL OFF)
 		FetchContent_Declare(
 			mbedtls
 			GIT_REPOSITORY https://github.com/Mbed-TLS/mbedtls.git
 			GIT_TAG 8b3f26a5ac38d4fdccbc5c5366229f3e01dafcc0 # v2.28.0
+			GIT_PROGRESS TRUE
 		)
 		FetchContent_MakeAvailable(mbedtls)
 	endif()
@@ -147,21 +150,30 @@ if(CHIAKI_ENABLE_CLI)
 	add_subdirectory(cli)
 endif()
 
+if(CHIAKI_ENABLE_GUI AND CHIAKI_GUI_ENABLE_SDL_GAMECONTROLLER)
+	find_package(SDL2 MODULE REQUIRED)
+endif()
+
 if(CHIAKI_ENABLE_SETSU)
-	find_package(Udev QUIET)
-	find_package(Evdev QUIET)
-	if(Udev_FOUND AND Evdev_FOUND)
-		set(CHIAKI_ENABLE_SETSU ON)
-	else()
-		if(NOT CHIAKI_ENABLE_SETSU STREQUAL AUTO)
-			message(FATAL_ERROR "
-CHIAKI_ENABLE_SETSU is set to ON, but its dependencies (udev and evdev) could not be resolved.
-Keep in mind that setsu is only supported on Linux!")
-		endif()
+	if(CHIAKI_ENABLE_SETSU STREQUAL AUTO AND SDL2_FOUND AND (SDL2_VERSION_MINOR GREATER 0 OR SDL2_VERSION_PATCH GREATER_EQUAL 14))
+		message(STATUS "SDL version ${SDL2_VERSION} is >= 2.0.14, disabling Setsu")
 		set(CHIAKI_ENABLE_SETSU OFF)
-	endif()
-	if(CHIAKI_ENABLE_SETSU)
-		add_subdirectory(setsu)
+	else()
+		find_package(Udev QUIET)
+		find_package(Evdev QUIET)
+		if(Udev_FOUND AND Evdev_FOUND)
+			set(CHIAKI_ENABLE_SETSU ON)
+		else()
+			if(NOT CHIAKI_ENABLE_SETSU STREQUAL AUTO)
+				message(FATAL_ERROR "
+	CHIAKI_ENABLE_SETSU is set to ON, but its dependencies (udev and evdev) could not be resolved.
+	Keep in mind that setsu is only supported on Linux!")
+			endif()
+			set(CHIAKI_ENABLE_SETSU OFF)
+		endif()
+		if(CHIAKI_ENABLE_SETSU)
+			add_subdirectory(setsu)
+		endif()
 	endif()
 endif()
 
@@ -172,7 +184,6 @@ else()
 endif()
 
 if(CHIAKI_ENABLE_GUI)
-	#add_subdirectory(setsu)
 	add_subdirectory(gui)
 endif()
 
