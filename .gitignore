@@ -12,7 +12,6 @@ appdir
 /Chiaki
 /SDL2-*
 /opus*
-/ffmpeg*
 /sdl2-*
 /protoc*
 /openssl*
@@ -28,5 +27,4 @@ compile_commands.json
 .gdb_history
 chiaki.conf
 /appimage
-.cache/
 .vscode/
