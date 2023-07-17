@@ -21,10 +21,6 @@
 #include <QSvgRenderer>
 #include <QApplication>
 
-#ifdef CHIAKI_GUI_ENABLE_QT_MACEXTRAS
-#include <QMacToolBar>
-#endif
-
 class IconEngine : public QIconEngine
 {
 	private:
@@ -88,28 +84,13 @@ MainWindow::MainWindow(Settings *settings, QWidget *parent)
 		return QIcon(new IconEngine(filename));
 	};
 
-#ifdef CHIAKI_GUI_ENABLE_QT_MACEXTRAS
-	auto tool_bar = new QMacToolBar(this);
-#else
 	auto tool_bar = new QToolBar(this);
 	tool_bar->setMovable(false);
 	addToolBar(tool_bar);
 	setUnifiedTitleAndToolBarOnMac(true);
-#endif
 
 	auto AddToolBarAction = [&](QAction *action) {
-#ifdef CHIAKI_GUI_ENABLE_QT_MACEXTRAS
-		auto item = tool_bar->addItem(action->icon(), action->text());
-		connect(item, &QMacToolBarItem::activated, action, &QAction::trigger);
-		if(action->isCheckable())
-		{
-			connect(action, &QAction::toggled, item, [action, item]() {
-				item->setIcon(action->icon());
-			});
-		}
-#else
 		tool_bar->addAction(action);
-#endif
 	};
 
 	discover_action = new QAction(tr("Search for Consoles"), this);
