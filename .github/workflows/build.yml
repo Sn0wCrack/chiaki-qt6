@@ -8,6 +8,64 @@ on:
   # Not as easy as updating a cmakelists.txt file :(
 
 jobs:
+  build-mac_x64:
+    name: Build Chiaki mac_x64
+    runs-on: macos-13
+    
+    steps:
+      - name: Clean Workspace Action
+        uses: yumis-coconudge/clean-workspace-action@v1
+
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'
+          path: 'chiaki-qt6'
+          
+      - name: Install Dependencies
+        run: |
+            HOMEBREW_NO_AUTO_UPDATE=1 brew install opus openssl@1.1 ffmpeg@5 nasm sdl2 protobuf
+          
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+          architecture: "x64"
+
+      - name: Install Python Dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install --upgrade setuptools wheel
+          python3 -m pip install --user --upgrade scons protobuf grpcio-tools pyinstaller
+          python3 -c 'import google.protobuf; print(google.protobuf.__file__)'
+          
+      - name: Setup Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: '6.5.1'
+          host: 'mac'
+          target: 'desktop'
+          arch: 'clang_64'
+          modules: 'qtmultimedia'
+          cache: true
+          
+      - name: Configure Chiaki
+        working-directory: chiaki-qt6
+        run: |
+          cmake `
+          -S . `
+          -B build `
+          -DCMAKE_BUILD_TYPE=Release  `
+          -DCHIAKI_ENABLE_CLI=OFF `
+          -DCHIAKI_GUI_ENABLE_SDL_GAMECONTROLLER=ON `
+          -DPYTHON_EXECUTABLE="${{ env.pythonLocation }}\python.exe" `
+          -DCMAKE_PREFIX_PATH="/usr/local/opt/openssl@1.1;${{ env.Qt6_Dir }}"
+
+      - name: Build Chiaki
+        working-directory: chiaki-qt6
+        run: |
+          cmake --build build --config Release --clean-first --target chiaki
+
   build-win_x64: # only win_x64 so far :)
     name: Build Chiaki win_x64 (VC)
     runs-on: windows-2022
@@ -20,7 +78,7 @@ jobs:
       - name: Clean Workspace Action
         uses: yumis-coconudge/clean-workspace-action@v1
 
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v3
         with:
           submodules: 'recursive'
@@ -81,7 +139,7 @@ jobs:
           python-version: "3.x"
           architecture: "x64"
 
-      - name: Install pip dependencies
+      - name: Install Python Dependencies
         run: |
           python3 -m pip install --upgrade pip
           python3 -m pip install --upgrade setuptools wheel
