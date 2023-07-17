@@ -63,7 +63,7 @@ jobs:
         working-directory: chiaki-qt6
         run: |
           cd build || exit
-          make -j4
+          VERBOSE=1 make -j4
           
       - name: Prepare Qt deployment package
         working-directory: chiaki-qt6
