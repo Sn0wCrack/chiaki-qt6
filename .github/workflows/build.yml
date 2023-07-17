@@ -180,7 +180,7 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: "x86_64"
-          toolset: "14"
+          toolset: "16"
 
       - name: Configure & Build Opus
         run: |
