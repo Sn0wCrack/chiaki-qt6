@@ -5,7 +5,7 @@
 
 #include <string.h>
 
-static void chiaki_audio_receiver_frame(ChiakiAudioReceiver* audio_receiver, ChiakiSeqNum16 frame_index, bool is_haptics, uint8_t* buf, size_t buf_size);
+static void chiaki_audio_receiver_frame(ChiakiAudioReceiver *audio_receiver, ChiakiSeqNum16 frame_index, bool is_haptics, uint8_t *buf, size_t buf_size);
 
 CHIAKI_EXPORT ChiakiErrorCode chiaki_audio_receiver_init(ChiakiAudioReceiver *audio_receiver, ChiakiSession *session, ChiakiPacketStats *packet_stats)
 {
@@ -109,7 +109,7 @@ CHIAKI_EXPORT void chiaki_audio_receiver_av_packet(ChiakiAudioReceiver *audio_re
 		chiaki_packet_stats_push_seq(audio_receiver->packet_stats, packet->frame_index);
 }
 
-static void chiaki_audio_receiver_frame(ChiakiAudioReceiver* audio_receiver, ChiakiSeqNum16 frame_index, bool is_haptics, uint8_t* buf, size_t buf_size)
+static void chiaki_audio_receiver_frame(ChiakiAudioReceiver *audio_receiver, ChiakiSeqNum16 frame_index, bool is_haptics, uint8_t *buf, size_t buf_size)
 {
 	chiaki_mutex_lock(&audio_receiver->mutex);
 
@@ -117,9 +117,9 @@ static void chiaki_audio_receiver_frame(ChiakiAudioReceiver* audio_receiver, Chi
 		goto beach;
 	audio_receiver->frame_index_prev = frame_index;
 
-	if (is_haptics && audio_receiver->session->haptics_sink.frame_cb)
+	if(is_haptics && audio_receiver->session->haptics_sink.frame_cb)
 		audio_receiver->session->haptics_sink.frame_cb(buf, buf_size, audio_receiver->session->haptics_sink.user);
-	else if (!is_haptics && audio_receiver->session->audio_sink.frame_cb)
+	else if(!is_haptics && audio_receiver->session->audio_sink.frame_cb)
 		audio_receiver->session->audio_sink.frame_cb(buf, buf_size, audio_receiver->session->audio_sink.user);
 
 beach:
