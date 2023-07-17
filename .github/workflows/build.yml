@@ -64,7 +64,8 @@ jobs:
       - name: Build Chiaki
         working-directory: chiaki-qt6
         run: |
-          cmake --build build --config Release --clean-first --target chiaki
+          cd build || exit
+          make -j4
           
       - name: Prepare Qt deployment package
         working-directory: chiaki-qt6
