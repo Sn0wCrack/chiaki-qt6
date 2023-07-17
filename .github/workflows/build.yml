@@ -35,9 +35,7 @@ jobs:
       - name: Install Python Dependencies
         run: |
           python3 -m pip install --upgrade pip
-          python3 -m pip install --upgrade setuptools wheel
-          python3 -m pip install --user --upgrade scons protobuf grpcio-tools pyinstaller
-          python3 -c 'import google.protobuf; print(google.protobuf.__file__)'
+          python3 -m pip install --user --upgrade protobuf
           
       - name: Setup Qt
         uses: jurplel/install-qt-action@v3
