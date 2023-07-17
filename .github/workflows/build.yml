@@ -59,7 +59,7 @@ jobs:
           -DCHIAKI_ENABLE_CLI=OFF \
           -DCHIAKI_GUI_ENABLE_SDL_GAMECONTROLLER=ON \
           -DPYTHON_EXECUTABLE="${{ env.pythonLocation }}\python.exe" \
-          -DCMAKE_PREFIX_PATH="/usr/local/opt/openssl@1.1;${{ env.Qt6_Dir }}"
+          -DCMAKE_PREFIX_PATH="/usr/local/opt/openssl@1.1;/usr/local/opt/ffmpeg@5;${{ env.Qt6_Dir }}"
 
       - name: Build Chiaki
         working-directory: chiaki-qt6
