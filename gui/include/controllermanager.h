@@ -4,7 +4,6 @@
 #define CHIAKI_CONTROLLERMANAGER_H
 
 #include <chiaki/controller.h>
-#include <chiaki/orientation.h>
 
 #include <QObject>
 #include <QSet>
@@ -13,7 +12,11 @@
 
 #ifdef CHIAKI_GUI_ENABLE_SDL_GAMECONTROLLER
 #include <SDL.h>
+#include <chiaki/orientation.h>
 #endif
+
+#define PS_TOUCHPAD_MAX_X 1920
+#define PS_TOUCHPAD_MAX_Y 1079
 
 class Controller;
 
@@ -34,7 +37,9 @@ class ControllerManager : public QObject
 	private slots:
 		void UpdateAvailableControllers();
 		void HandleEvents();
-		void ControllerEvent(int device_id);
+#ifdef CHIAKI_GUI_ENABLE_SDL_GAMECONTROLLER
+		void ControllerEvent(SDL_Event evt);
+#endif
 
 	public:
 		static ControllerManager *GetInstance();
@@ -58,13 +63,24 @@ class Controller : public QObject
 	private:
 		Controller(int device_id, ControllerManager *manager);
 
-		void UpdateState();
+#ifdef CHIAKI_GUI_ENABLE_SDL_GAMECONTROLLER
+		void UpdateState(SDL_Event event);
+		bool HandleButtonEvent(SDL_ControllerButtonEvent event);
+		bool HandleAxisEvent(SDL_ControllerAxisEvent event);
+#if SDL_VERSION_ATLEAST(2, 0, 14)
+		bool HandleSensorEvent(SDL_ControllerSensorEvent event);
+		bool HandleTouchpadEvent(SDL_ControllerTouchpadEvent event);
+#endif
+#endif
 
 		ControllerManager *manager;
 		int id;
-		ChiakiOrientationTracker orient_tracker;
+		ChiakiOrientationTracker orientation_tracker;
+		ChiakiControllerState state;
+		bool is_dualsense;
 
 #ifdef CHIAKI_GUI_ENABLE_SDL_GAMECONTROLLER
+		QMap<QPair<Sint64, Sint64>, uint8_t> touch_ids;
 		SDL_GameController *controller;
 #endif
 

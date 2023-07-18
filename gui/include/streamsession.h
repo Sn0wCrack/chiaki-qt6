@@ -20,6 +20,7 @@
 #include "sessionlog.h"
 #include "controllermanager.h"
 #include "settings.h"
+#include "transformmode.h"
 
 #include <QObject>
 #include <QImage>
@@ -54,10 +55,18 @@ struct StreamSessionConnectInfo
 	ChiakiConnectVideoProfile video_profile;
 	unsigned int audio_buffer_size;
 	bool fullscreen;
+	TransformMode transform_mode;
 	bool enable_keyboard;
 	bool enable_dualsense;
 
-	StreamSessionConnectInfo(Settings *settings, ChiakiTarget target, QString host, QByteArray regist_key, QByteArray morning, bool fullscreen, bool enable_dualsense);
+	StreamSessionConnectInfo(
+			Settings *settings,
+			ChiakiTarget target,
+			QString host,
+			QByteArray regist_key,
+			QByteArray morning,
+			bool fullscreen,
+			TransformMode transform_mode);
 };
 
 class StreamSession : public QObject
@@ -110,7 +119,7 @@ class StreamSession : public QObject
 		void InitHaptics();
 		void Event(ChiakiEvent *event);
 		void DisconnectHaptics();
- 		void ConnectHaptics();
+		void ConnectHaptics();
 
 	public:
 		explicit StreamSession(const StreamSessionConnectInfo &connect_info, QObject *parent = nullptr);
@@ -132,7 +141,7 @@ class StreamSession : public QObject
 #endif
 
 		void HandleKeyboardEvent(QKeyEvent *event);
-		void HandleMouseEvent(QMouseEvent *event);
+		bool HandleMouseEvent(QMouseEvent *event);
 
 	signals:
 		void FfmpegFrameAvailable();

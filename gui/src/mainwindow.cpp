@@ -78,7 +78,7 @@ MainWindow::MainWindow(Settings *settings, QWidget *parent)
 	auto layout = new QVBoxLayout();
 	main_widget->setLayout(layout);
 	setCentralWidget(main_widget);
-	//layout->setMargin(0);
+	layout->setMargin(0);
 
 	auto LoadIcon = [this](const QString &filename) {
 		return QIcon(new IconEngine(filename));
@@ -235,7 +235,14 @@ void MainWindow::ServerItemWidgetTriggered()
 		}
 
 		QString host = server.GetHostAddr();
-		StreamSessionConnectInfo info(settings, server.registered_host.GetTarget(), host, server.registered_host.GetRPRegistKey(), server.registered_host.GetRPKey(), false, settings->GetDualSenseEnabled());
+		StreamSessionConnectInfo info(
+				settings,
+				server.registered_host.GetTarget(),
+				host,
+				server.registered_host.GetRPRegistKey(),
+				server.registered_host.GetRPKey(),
+				false,
+				TransformMode::Fit);
 		new StreamWindow(info);
 	}
 	else
