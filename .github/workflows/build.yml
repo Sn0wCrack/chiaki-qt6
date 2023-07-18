@@ -81,7 +81,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Chiaki-Mac-Qt6-Release
-          path: Chiaki-Mac-Qt6\chiaki.dmg
+          path: Chiaki-Mac-Qt6/chiaki.dmg
           if-no-files-found: error
           retention-days: 1
 
