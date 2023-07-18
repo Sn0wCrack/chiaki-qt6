@@ -32,17 +32,13 @@ jobs:
         with:
           python-version: "3.11"
           architecture: "x64"
-          
-      - name: Add Python To PATH
-        run: |
-         echo "/Users/runner/Library/Python/3.11/bin" >> $GITHUB_PATH
 
       - name: Install Python Dependencies
         run: |
-          python3 -m pip install --upgrade pip
-          python3 -m pip install --upgrade setuptools wheel
-          python3 -m pip install --user --upgrade scons protobuf grpcio-tools pyinstaller
-          python3 -c 'import google.protobuf; print(google.protobuf.__file__)'
+          python -m pip install --upgrade pip
+          python -m pip install --upgrade setuptools wheel
+          python -m pip install --user --upgrade scons protobuf grpcio-tools pyinstaller
+          python -c 'import google.protobuf; print(google.protobuf.__file__)'
 
           
       - name: Setup Qt
