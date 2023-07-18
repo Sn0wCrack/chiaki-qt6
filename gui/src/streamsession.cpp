@@ -466,7 +466,8 @@ void StreamSession::InitHaptics()
 
 void StreamSession::DisconnectHaptics()
 {
-	if (this->haptics_output > 0) {
+	if(this->haptics_output > 0)
+	{
 		SDL_CloseAudioDevice(haptics_output);
 		this->haptics_output = 0;
 	}
