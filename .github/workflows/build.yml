@@ -65,15 +65,17 @@ jobs:
 
       - name: Build Chiaki
         working-directory: chiaki-qt6
+        env:
+          VERBOSE: 1
         run: |
-          VERBOSE=1 cmake --build build --config Release --clean-first --target chiaki
+          cmake --build build --config Release --clean-first --target chiaki
           
       - name: Prepare Qt deployment package
         working-directory: chiaki-qt6
         run: |
           mkdir Chiaki-Mac-Qt6
           cp -a build/gui/chiaki.app Chiaki-Mac-Qt6
-          macdeployqt --no-translations Chiaki-Mac-Qt6\chiaki.app -dmg
+          macdeployqt Chiaki-Mac-Qt6\chiaki.app -dmg
           
       - name: Upload Chiaki Artifact
         uses: actions/upload-artifact@v3
@@ -212,8 +214,10 @@ jobs:
 
       - name: Build Chiaki
         working-directory: chiaki-qt6
+        env:
+          VERBOSE: 1
         run: |
-          VERBOSE=1 cmake --build build --config Release --clean-first --target chiaki
+          cmake --build build --config Release --clean-first --target chiaki
 
       - name: Prepare Qt deployment package
         working-directory: chiaki-qt6
