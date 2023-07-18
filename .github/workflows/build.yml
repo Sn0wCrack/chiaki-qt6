@@ -81,7 +81,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Chiaki-Mac-Qt6-Release
-          path: Chiaki-Mac-Qt6
+          path: chiaki-qt6/Chiaki-Mac-Qt6
           if-no-files-found: error
           retention-days: 1
 
@@ -219,7 +219,7 @@ jobs:
         run: |
           cmake --build build --config Release --clean-first --target chiaki --parallel 4
 
-      - name: Prepare Qt deployment package
+      - name: Prepare Qt Deployment Package
         working-directory: chiaki-qt6
         run: |
           mkdir Chiaki-Win-Qt6
