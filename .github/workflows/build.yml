@@ -10,7 +10,7 @@ on:
 jobs:
   build-mac_x64:
     name: Build Chiaki mac_x64
-    runs-on: macos-13
+    runs-on: macos-12
     
     steps:
       - name: Clean Workspace Action
@@ -27,6 +27,7 @@ jobs:
             HOMEBREW_NO_AUTO_UPDATE=1 brew install opus openssl@1.1 ffmpeg@5 nasm sdl2 protobuf
           
       - name: Setup Python
+        id: python
         uses: actions/setup-python@v4
         with:
           python-version: "3.x"
