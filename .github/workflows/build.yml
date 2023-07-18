@@ -39,8 +39,7 @@ jobs:
           python -m pip install --upgrade setuptools wheel
           python -m pip install --user --upgrade scons protobuf grpcio-tools pyinstaller
           python -c 'import google.protobuf; print(google.protobuf.__file__)'
-
-          
+     
       - name: Setup Qt
         uses: jurplel/install-qt-action@v3
         with:
@@ -58,15 +57,16 @@ jobs:
           -S . \
           -B build \
           -DCMAKE_BUILD_TYPE=Release \
+          -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE \
           -DCHIAKI_ENABLE_CLI=OFF \
           -DCHIAKI_GUI_ENABLE_SDL_GAMECONTROLLER=ON \
-          -DPYTHON_EXECUTABLE="${{ env.pythonLocation }}\python.exe" \
+          -DPYTHON_EXECUTABLE="${{ env.pythonLocation }}\python" \
           -DCMAKE_PREFIX_PATH="/usr/local/opt/openssl@1.1;/usr/local/opt/ffmpeg@5;${{ env.Qt6_Dir }}"
 
       - name: Build Chiaki
         working-directory: chiaki-qt6
         run: |
-          cmake --build build --config Release --clean-first --target chiaki
+          VERBOSE=1 cmake --build build --config Release --clean-first --target chiaki
           
       - name: Prepare Qt deployment package
         working-directory: chiaki-qt6
@@ -213,7 +213,7 @@ jobs:
       - name: Build Chiaki
         working-directory: chiaki-qt6
         run: |
-          cmake --build build --config Release --clean-first --target chiaki
+          VERBOSE=1 cmake --build build --config Release --clean-first --target chiaki
 
       - name: Prepare Qt deployment package
         working-directory: chiaki-qt6
