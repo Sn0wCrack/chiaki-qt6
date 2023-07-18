@@ -1,4 +1,4 @@
-name: Build Chiaki (VC Qt6)
+name: Build Chiaki (Qt6)
 
 on:
   workflow_dispatch:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   build-mac_x64:
-    name: Build Chiaki mac_x64
+    name: Build Chiaki macOS x64
     runs-on: macos-13
     
     steps:
@@ -81,12 +81,12 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Chiaki-Mac-Qt6-Release
-          path: Chiaki-Mac-Qt6/chiaki.dmg
+          path: Chiaki-Mac-Qt6
           if-no-files-found: error
           retention-days: 1
 
-  build-win_x64: # only win_x64 so far :)
-    name: Build Chiaki win_x64 (VC)
+  build-win_x64:
+    name: Build Chiaki Windows x64 (VC)
     runs-on: windows-2022
 
     defaults:
