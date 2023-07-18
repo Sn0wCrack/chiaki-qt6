@@ -70,12 +70,12 @@ jobs:
         run: |
           cmake --build build --config Release --clean-first --target chiaki
           
-      - name: Prepare Qt deployment package
+      - name: Prepare Qt Deployment Package
         working-directory: chiaki-qt6
         run: |
           mkdir Chiaki-Mac-Qt6
           cp -a build/gui/chiaki.app Chiaki-Mac-Qt6
-          macdeployqt Chiaki-Mac-Qt6/chiaki.app -dmg
+          macdeployqt Chiaki-Mac-Qt6/chiaki.app -dmg -verbose=3
           
       - name: Upload Chiaki Artifact
         uses: actions/upload-artifact@v3
