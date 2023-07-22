@@ -183,7 +183,8 @@ SettingsDialog::SettingsDialog(Settings *settings, QWidget *parent) : QDialog(pa
 	codec_combo_box = new QComboBox(this);
 	static const QList<QPair<ChiakiCodec, QString>> codec_strings = {
 		{ CHIAKI_CODEC_H264, "H264" },
-		{ CHIAKI_CODEC_H265, "H265 (PS5 only)" }
+		{ CHIAKI_CODEC_H265, "H265 (PS5 only)" },
+        { CHIAKI_CODEC_H265_HDR, "H265 HDR (PS5 only)" }
 	};
 	auto current_codec = settings->GetCodec();
 	for(const auto &p : codec_strings)

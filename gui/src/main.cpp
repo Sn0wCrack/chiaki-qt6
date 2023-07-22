@@ -29,6 +29,7 @@ int main(int argc, char *argv[]) { return real_main(argc, argv); }
 #include <QCommandLineParser>
 #include <QMap>
 #include <QSurfaceFormat>
+#include <QStyleFactory>
 
 Q_DECLARE_METATYPE(ChiakiLogLevel)
 
@@ -76,6 +77,8 @@ int real_main(int argc, char *argv[])
 #else
 	QApplication::setWindowIcon(QIcon(":/icons/chiaki.svg"));
 #endif
+
+    app->setStyle(QStyleFactory::create("Fusion"));
 
 	QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 
