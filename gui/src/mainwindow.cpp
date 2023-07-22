@@ -191,7 +191,7 @@ DisplayServer *MainWindow::DisplayServerFromSender()
 	return &display_servers[index];
 }
 
-void MainWindow::SendWakeup(const DisplayServer *server)
+bool MainWindow::SendWakeup(const DisplayServer *server, bool with_dialog = true)
 {
 	if(!server->registered)
 		return;
@@ -203,11 +203,16 @@ void MainWindow::SendWakeup(const DisplayServer *server)
 	}
 	catch(const Exception &e)
 	{
-		QMessageBox::critical(this, tr("Wakeup failed"), tr("Failed to send Wakeup packet:\n%1").arg(e.what()));
-		return;
+        if(with_dialog)
+            QMessageBox::critical(this, tr("Wakeup failed"), tr("Failed to send Wakeup packet:\n%1").arg(e.what()));
+
+		return false;
 	}
 
-	QMessageBox::information(this, tr("Wakeup"), tr("Wakeup packet sent."));
+    if(with_dialog)
+        QMessageBox::information(this, tr("Wakeup"), tr("Wakeup packet sent."));
+
+    return true;
 }
 
 void MainWindow::ServerItemWidgetTriggered()
@@ -221,17 +226,10 @@ void MainWindow::ServerItemWidgetTriggered()
 	{
 		if(server.discovered && server.discovery_host.state == CHIAKI_DISCOVERY_HOST_STATE_STANDBY)
 		{
-			int r = QMessageBox::question(this,
-					tr("Start Stream"),
-					tr("The Console is currently in standby mode.\nShould we send a Wakeup packet instead of trying to connect immediately?"),
-					QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
-			if(r == QMessageBox::Yes)
-			{
-				SendWakeup(&server);
-				return;
-			}
-			else if(r == QMessageBox::Cancel)
-				return;
+            bool wakeup_success = SendWakeup(&server, false);
+
+            if (!wakeup_success)
+                return;
 		}
 
 		QString host = server.GetHostAddr();
