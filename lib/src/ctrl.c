@@ -43,6 +43,9 @@ typedef enum ctrl_message_type_t {
 	CTRL_MESSAGE_TYPE_KEYBOARD_TEXT_CHANGE_REQ = 0x23,
 	CTRL_MESSAGE_TYPE_KEYBOARD_TEXT_CHANGE_RES = 0x24,
 	CTRL_MESSAGE_TYPE_KEYBOARD_CLOSE_REQ = 0x25,
+    // 0x16
+    // 0x41
+    // 0x3
 } CtrlMessageType;
 
 typedef enum ctrl_login_state_t {

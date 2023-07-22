@@ -137,7 +137,8 @@ void Settings::SetBitrate(unsigned int bitrate)
 
 static const QMap<ChiakiCodec, QString> codecs = {
 	{ CHIAKI_CODEC_H264, "h264" },
-	{ CHIAKI_CODEC_H265, "h265" }
+	{ CHIAKI_CODEC_H265, "h265" },
+    { CHIAKI_CODEC_H265_HDR, "h265/hdr" },
 };
 
 static const ChiakiCodec codec_default = CHIAKI_CODEC_H265;
