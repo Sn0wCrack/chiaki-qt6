@@ -45,7 +45,7 @@ class MainWindow : public QMainWindow
 		QList<DisplayServer> display_servers;
 
 		DisplayServer *DisplayServerFromSender();
-		void SendWakeup(const DisplayServer *server);
+		void SendWakeup(const DisplayServer *server, bool with_dialog = true);
 
 	private slots:
 		void ServerItemWidgetSelected();

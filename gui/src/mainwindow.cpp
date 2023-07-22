@@ -194,7 +194,7 @@ DisplayServer *MainWindow::DisplayServerFromSender()
 bool MainWindow::SendWakeup(const DisplayServer *server, bool with_dialog = true)
 {
 	if(!server->registered)
-		return;
+		return false;
 
 	try
 	{
@@ -226,9 +226,7 @@ void MainWindow::ServerItemWidgetTriggered()
 	{
 		if(server.discovered && server.discovery_host.state == CHIAKI_DISCOVERY_HOST_STATE_STANDBY)
 		{
-            bool wakeup_success = SendWakeup(&server, false);
-
-            if (!wakeup_success)
+            if(!SendWakeup(&server, false))
                 return;
 		}
 
