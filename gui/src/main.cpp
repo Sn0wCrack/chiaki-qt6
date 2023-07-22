@@ -78,7 +78,7 @@ int real_main(int argc, char *argv[])
 	QApplication::setWindowIcon(QIcon(":/icons/chiaki.svg"));
 #endif
 
-    app->setStyle(QStyleFactory::create("Fusion"));
+    QApplication::setStyle(QStyleFactory::create("Fusion"));
 
 	QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 
