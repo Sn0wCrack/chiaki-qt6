@@ -226,15 +226,8 @@ void MainWindow::ServerItemWidgetTriggered()
 
 	if(server.registered)
 	{
-		if(server.discovered && server.discovery_host.state == CHIAKI_DISCOVERY_HOST_STATE_STANDBY)
-		{
-            if(!SendWakeup(&server, false))
-                return;
-
-            std::this_thread::sleep_for(
-                std::chrono::milliseconds(5000)
-            );
-		}
+        if(!SendWakeup(&server, false))
+            return;
 
 		QString host = server.GetHostAddr();
 		StreamSessionConnectInfo info(
