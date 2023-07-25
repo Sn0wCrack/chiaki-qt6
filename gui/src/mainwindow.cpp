@@ -9,6 +9,8 @@
 #include <streamsession.h>
 #include <streamwindow.h>
 #include <manualhostdialog.h>
+#include <chrono>
+#include <thread>
 
 #include <QTableWidget>
 #include <QVBoxLayout>
@@ -228,6 +230,10 @@ void MainWindow::ServerItemWidgetTriggered()
 		{
             if(!SendWakeup(&server, false))
                 return;
+
+            std::this_thread::sleep_for(
+                std::chrono::milliseconds(5000)
+            );
 		}
 
 		QString host = server.GetHostAddr();
