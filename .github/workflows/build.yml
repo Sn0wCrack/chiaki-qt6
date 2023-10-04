@@ -223,8 +223,8 @@ jobs:
         run: |
           mkdir Chiaki-Win-Qt6
           cp build\gui\Release\chiaki.exe Chiaki-Win-Qt6
-          cp "${{ github.workspace }}\openssl\x64\bin\libcrypto-1_1-x64.dll" Chiaki-Win-Qt6
-          cp "${{ github.workspace }}\openssl\x64\bin\libssl-1_1-x64.dll" Chiaki-Win-Qt6
+          cp "${{ github.workspace }}\openssl\x64\bin\libcrypto-3-x64.dll" Chiaki-Win-Qt6
+          cp "${{ github.workspace }}\openssl\x64\bin\libssl-3-x64.dll" Chiaki-Win-Qt6
           cp "${{ github.workspace }}\SDL2\lib\x64\SDL2.dll" Chiaki-Win-Qt6
           cp "${{ github.workspace }}\ffmpeg\bin\swresample-4.dll" Chiaki-Win-Qt6
           cp "${{ github.workspace }}\ffmpeg\bin\avcodec-60.dll" Chiaki-Win-Qt6
