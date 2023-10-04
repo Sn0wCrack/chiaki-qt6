@@ -2,7 +2,6 @@ name: Build Chiaki (Qt6)
 
 on:
   workflow_dispatch:
-  # workflow_call: #testing!
 
   # TODO: https://www.qt.io/blog/qt-multimedia-in-qt-6
   # Not as easy as updating a cmakelists.txt file :(
@@ -24,7 +23,7 @@ jobs:
           
       - name: Install Dependencies
         run: |
-            HOMEBREW_NO_AUTO_UPDATE=1 brew install opus openssl@1.1 ffmpeg@6 nasm sdl2 protobuf
+            HOMEBREW_NO_AUTO_UPDATE=1 brew install opus openssl@3 ffmpeg@6 nasm sdl2 protobuf
           
       - name: Setup Python
         id: python
@@ -124,16 +123,16 @@ jobs:
       - name: Setup OpenSSL
         run: |
           $ProgressPreference = 'SilentlyContinue'
-          Invoke-WebRequest -UseBasicParsing -Uri "https://download.firedaemon.com/FireDaemon-OpenSSL/openssl-1.1.1w.zip" -OutFile ".\openssl-1.1.1w.zip"
-          Expand-Archive -LiteralPath "openssl-1.1.1w.zip" -DestinationPath "."
-          Rename-Item "openssl-1.1" "openssl"
+          Invoke-WebRequest -UseBasicParsing -Uri "https://download.firedaemon.com/FireDaemon-OpenSSL/openssl-3.1.3.zip" -OutFile ".\openssl-3.1.3.zip"
+          Expand-Archive -LiteralPath "openssl-3.1.3.zip" -DestinationPath "."
+          Rename-Item "openssl-3" "openssl"
           Write-Output "${{ github.workspace }}\openssl" | Out-File -FilePath $Env:GITHUB_PATH -Encoding utf8 -Append
 
       - name: Setup SDL2
         run: |
           $ProgressPreference = 'SilentlyContinue'
-          Invoke-WebRequest -UseBasicParsing -Uri "https://www.libsdl.org/release/SDL2-devel-2.28.3-VC.zip" -OutFile ".\SDL2-devel-2.28.3-VC.zip"
-          Expand-Archive -LiteralPath "SDL2-devel-2.28.3-VC.zip" -DestinationPath "."
+          Invoke-WebRequest -UseBasicParsing -Uri "https://www.libsdl.org/release/SDL2-devel-2.28.4-VC.zip" -OutFile ".\SDL2-devel-2.28.4-VC.zip"
+          Expand-Archive -LiteralPath "SDL2-devel-2.28.4-VC.zip" -DestinationPath "."
           Rename-Item "SDL2-2.28.3" "SDL2"
           Write-Output "SDL2_DIR=${{ github.workspace }}\SDL2" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
           Set-Content -Path "${{ github.workspace }}\SDL2\sdl2-config.cmake" -Value 'set(TARGET_NAME SDL2::SDL2)'
