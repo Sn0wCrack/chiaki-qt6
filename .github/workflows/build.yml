@@ -109,9 +109,9 @@ jobs:
       - name: Setup ffmpeg
         run: |
           $ProgressPreference = 'SilentlyContinue'
-          Invoke-WebRequest -UseBasicParsing -Uri "https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-n5.1-latest-win64-lgpl-shared-5.1.zip" -OutFile ".\ffmpeg-n5.1-latest-win64-lgpl-shared-5.1.zip"
-          Expand-Archive -LiteralPath "ffmpeg-n5.1-latest-win64-lgpl-shared-5.1.zip" -DestinationPath "."
-          Rename-Item "ffmpeg-n5.1-latest-win64-lgpl-shared-5.1" "ffmpeg"
+          Invoke-WebRequest -UseBasicParsing -Uri "https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-n6.0-latest-win64-lgpl-shared-6.0.zip" -OutFile ".\ffmpeg-n5.1-latest-win64-lgpl-shared-5.1.zip"
+          Expand-Archive -LiteralPath "ffmpeg-n6.0-latest-win64-lgpl-shared-6.0.zip" -DestinationPath "."
+          Rename-Item "ffmpeg-n6.0-latest-win64-lgpl-shared-6.0.zip" "ffmpeg"
           Write-Output "${{ github.workspace }}\ffmpeg\bin" | Out-File -FilePath $Env:GITHUB_PATH -Encoding utf8 -Append
 
       - name: Setup protoc
@@ -160,7 +160,7 @@ jobs:
           python3 -m pip install --user --upgrade scons protobuf grpcio-tools pyinstaller
           python3 -c 'import google.protobuf; print(google.protobuf.__file__)'
 
-      # aqt list-qt windows desktop --modules 6.2.4 win64_msvc2019_64
+      # aqt list-qt windows desktop --modules 6.5.3 win64_msvc2019_64
       # debug_info qt3d qt5compat qtactiveqt qtcharts qtconnectivity qtdatavis3d
       #   qtimageformats qtlottie qtmultimedia qtnetworkauth qtpositioning qtquick3d
       #   qtquicktimeline qtremoteobjects qtscxml qtsensors qtserialbus qtserialport
@@ -168,7 +168,7 @@ jobs:
       - name: Setup Qt
         uses: jurplel/install-qt-action@v3
         with:
-          version: '6.5.1'
+          version: '6.5.3'
           host: 'windows'
           target: 'desktop'
           arch: 'win64_msvc2019_64'
@@ -228,8 +228,8 @@ jobs:
           cp "${{ github.workspace }}\openssl\x64\bin\libssl-1_1-x64.dll" Chiaki-Win-Qt6
           cp "${{ github.workspace }}\SDL2\lib\x64\SDL2.dll" Chiaki-Win-Qt6
           cp "${{ github.workspace }}\ffmpeg\bin\swresample-4.dll" Chiaki-Win-Qt6
-          cp "${{ github.workspace }}\ffmpeg\bin\avcodec-59.dll" Chiaki-Win-Qt6
-          cp "${{ github.workspace }}\ffmpeg\bin\avutil-57.dll" Chiaki-Win-Qt6
+          cp "${{ github.workspace }}\ffmpeg\bin\avcodec-60.dll" Chiaki-Win-Qt6
+          cp "${{ github.workspace }}\ffmpeg\bin\avutil-58.dll" Chiaki-Win-Qt6
           windeployqt.exe --no-translations Chiaki-Win-Qt6\chiaki.exe
 
       - name: Package Chiaki
