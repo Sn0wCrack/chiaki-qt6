@@ -182,7 +182,7 @@ jobs:
 
       - name: Configure & Build Opus
         run: |
-          git clone https://github.com/xiph/opus.git
+          git clone --depth 1 --branch v1.4 https://github.com/xiph/opus.git
           cd opus
           mkdir build
           cmake `
