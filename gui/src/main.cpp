@@ -80,8 +80,6 @@ int real_main(int argc, char *argv[])
 
     QApplication::setStyle(QStyleFactory::create("Fusion"));
 
-	QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-
 	Settings settings;
 
 	QCommandLineParser parser;

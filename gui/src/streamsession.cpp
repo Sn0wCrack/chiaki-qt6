@@ -411,9 +411,9 @@ void StreamSession::InitAudio(unsigned int channels, unsigned int rate)
 	audio_io = nullptr;
 
 	QAudioFormat audio_format = audio_out_device_info.preferredFormat();
-	 audio_format.setSampleRate(rate);
-	 audio_format.setChannelCount(channels);
-	 audio_format.setSampleFormat(QAudioFormat::Int16);
+    audio_format.setSampleRate(rate);
+	audio_format.setChannelCount(channels);
+	audio_format.setSampleFormat(QAudioFormat::Int16);
 
 	QAudioDevice audio_device_info = audio_out_device_info;
 	if(!audio_device_info.isFormatSupported(audio_format))
@@ -511,8 +511,10 @@ void StreamSession::ConnectHaptics()
 
 void StreamSession::PushAudioFrame(int16_t *buf, size_t samples_count)
 {
-	if(!audio_io)
-		return;
+	if(!audio_io) {
+        CHIAKI_LOGE(log.GetChiakiLog(), "Audio Frame pushed but Audio Sink is currently not configured or null");
+        return;
+    }
 	audio_io->write((const char *)buf, static_cast<qint64>(samples_count * 2 * 2));
 }
 
