@@ -4,11 +4,12 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 find_package(Qt6 COMPONENTS Core Widgets Gui Concurrent Multimedia OpenGL Svg OpenGLWidgets)
 
+set(RESOURCE_FILES "")
+
 if(WIN32)
 	add_definitions(-DWIN32_LEAN_AND_MEAN)
+	list(APPEND RESOURCE_FILES "icon.rc")
 endif()
-
-set(RESOURCE_FILES "")
 
 if(APPLE)
 	list(APPEND RESOURCE_FILES "chiaki.icns")
