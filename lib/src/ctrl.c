@@ -37,15 +37,17 @@ typedef enum ctrl_message_type_t {
 	CTRL_MESSAGE_TYPE_LOGIN_PIN_REP = 0x8004,
 	CTRL_MESSAGE_TYPE_LOGIN = 0x5,
 	CTRL_MESSAGE_TYPE_GOTO_BED = 0x50,
+	CTRL_MESSAGE_TYPE_KEYBOARD_ENABLE = 0xd,
 	CTRL_MESSAGE_TYPE_KEYBOARD_ENABLE_TOGGLE = 0x20,
 	CTRL_MESSAGE_TYPE_KEYBOARD_OPEN = 0x21,
 	CTRL_MESSAGE_TYPE_KEYBOARD_CLOSE_REMOTE = 0x22,
 	CTRL_MESSAGE_TYPE_KEYBOARD_TEXT_CHANGE_REQ = 0x23,
 	CTRL_MESSAGE_TYPE_KEYBOARD_TEXT_CHANGE_RES = 0x24,
 	CTRL_MESSAGE_TYPE_KEYBOARD_CLOSE_REQ = 0x25,
-    // 0x16
-    // 0x41
-    // 0x3
+	CTRL_MESSAGE_TYPE_ENABLE_DUALSENSE_FEATURES = 0x13,
+	CTRL_MESSAGE_TYPE_MIC_CONNECT = 0x30,
+	CTRL_MESSAGE_TYPE_MIC_TOGGLE = 0x36,
+	CTRL_MESSAGE_TYPE_DISPLAY_DEVICES = 0x910
 } CtrlMessageType;
 
 typedef enum ctrl_login_state_t {
@@ -495,7 +497,9 @@ static void ctrl_enable_optional_features(ChiakiCtrl *ctrl)
 	{
 		CHIAKI_LOGI(ctrl->session->log, "Enabling DualSense features");
 		const uint8_t enable[3] = { 0x00, 0x40, 0x00 };
-		ctrl_message_send(ctrl, 0x13, enable, 3);
+		ctrl_message_send(ctrl, CTRL_MESSAGE_TYPE_ENABLE_DUALSENSE_FEATURES, enable, 3);
+		const uint8_t connect[0x10] = { 0xa0, 0xab, 0x51, 0xbd, 0xd1, 0x7e, 0x00, 0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00 };
+		ctrl_message_send(ctrl, 0x11, connect, 0x10);
 	}
 	if(ctrl->session->connect_info.enable_keyboard)
 	{
