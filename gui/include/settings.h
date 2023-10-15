@@ -56,15 +56,18 @@ class Settings : public QObject
 	public:
 		explicit Settings(QObject *parent = nullptr);
 
-		bool GetDiscoveryEnabled() const		{ return settings.value("settings/auto_discovery", true).toBool(); }
-		void SetDiscoveryEnabled(bool enabled)	{ settings.setValue("settings/auto_discovery", enabled); }
+		bool GetDiscoveryEnabled() const		    { return settings.value("settings/auto_discovery", true).toBool(); }
+		void SetDiscoveryEnabled(bool enabled)	    { settings.setValue("settings/auto_discovery", enabled); }
 
-		bool GetLogVerbose() const 				{ return settings.value("settings/log_verbose", false).toBool(); }
-		void SetLogVerbose(bool enabled)		{ settings.setValue("settings/log_verbose", enabled); }
+		bool GetLogVerbose() const 				    { return settings.value("settings/log_verbose", false).toBool(); }
+		void SetLogVerbose(bool enabled)		    { settings.setValue("settings/log_verbose", enabled); }
 		uint32_t GetLogLevelMask();
 
-		bool GetDualSenseEnabled() const		{ return settings.value("settings/dualsense_enabled", false).toBool(); }
-		void SetDualSenseEnabled(bool enabled)	{ settings.setValue("settings/dualsense_enabled", enabled); }
+		bool GetDualSenseEnabled() const		    { return settings.value("settings/dualsense_enabled", false).toBool(); }
+		void SetDualSenseEnabled(bool enabled)      { settings.setValue("settings/dualsense_enabled", enabled); }
+
+        bool GetAutomaticConnect() const            { return settings.value("settings/automatic_connect", false).toBool(); }
+        void SetAutomaticConnect(bool autoconnect)  { settings.setValue("settings/automatic_connect", autoconnect) }
 
 		ChiakiVideoResolutionPreset GetResolution() const;
 		void SetResolution(ChiakiVideoResolutionPreset resolution);

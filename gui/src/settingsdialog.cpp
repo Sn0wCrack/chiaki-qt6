@@ -75,6 +75,11 @@ SettingsDialog::SettingsDialog(Settings *settings, QWidget *parent) : QDialog(pa
 	dualsense_check_box->setChecked(settings->GetDualSenseEnabled());
 	connect(dualsense_check_box, &QCheckBox::stateChanged, this, &SettingsDialog::DualSenseChanged);
 
+    automatic_connect_check_box = new QCheckBox(this);
+    general_layout->addRow(tr("Automatically connect to PlayStation after clicking in GUI."), automatic_connect_check_box);
+    automatic_connect_check_box->setChecked(settings->GetAutomaticConnect());
+    connect(automatic_connect_check_box, &QCheckBox::stateChanged, this, &SettingsDialog::AutomaticConnectChanged);
+
 	auto log_directory_label = new QLineEdit(GetLogBaseDir(), this);
 	log_directory_label->setReadOnly(true);
 	general_layout->addRow(tr("Log Directory:"), log_directory_label);
@@ -332,6 +337,11 @@ void SettingsDialog::LogVerboseChanged()
 void SettingsDialog::DualSenseChanged()
 {
 	settings->SetDualSenseEnabled(dualsense_check_box->isChecked());
+}
+
+void SettingsDialog::AutomaticConnectChanged()
+{
+    settings->SetAutomaticConnect(automatic_connect_check_box->isChecked());
 }
 
 void SettingsDialog::FPSSelected()

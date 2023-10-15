@@ -9,8 +9,7 @@
 #include <streamsession.h>
 #include <streamwindow.h>
 #include <manualhostdialog.h>
-#include <chrono>
-#include <thread>
+#include <time.h>
 
 #include <QTableWidget>
 #include <QVBoxLayout>
@@ -226,8 +225,34 @@ void MainWindow::ServerItemWidgetTriggered()
 
 	if(server.registered)
 	{
-        if(!SendWakeup(&server, false))
-            return;
+        if(settings->GetAutomaticConnect())
+        {
+            if(!SendWakeup(&server, false))
+                return;
+        }
+        else
+        {
+            int r = QMessageBox::question(this,
+                  tr("Start Stream"),
+                  tr("The Console is currently in standby mode.\nShould we send a Wakeup packet instead of trying to connect immediately?"),
+                  QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+
+            if(r == QMessageBox::Yes)
+            {
+                if(!SendWakeup(&server, false))
+                    return;
+            }
+            else if(r == QMessageBox::Cancel)
+                return;
+        }
+
+        // Wait for up to 10 seconds after wakeup packet has been sent
+        time_t start, end;
+        time(&start);
+
+        do
+            time(&end);
+        while(difftime(end, start) <= 10);
 
 		QString host = server.GetHostAddr();
 		StreamSessionConnectInfo info(
