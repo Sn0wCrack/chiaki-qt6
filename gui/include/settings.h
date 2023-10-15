@@ -67,7 +67,7 @@ class Settings : public QObject
 		void SetDualSenseEnabled(bool enabled)      { settings.setValue("settings/dualsense_enabled", enabled); }
 
         bool GetAutomaticConnect() const            { return settings.value("settings/automatic_connect", false).toBool(); }
-        void SetAutomaticConnect(bool autoconnect)  { settings.setValue("settings/automatic_connect", autoconnect) }
+        void SetAutomaticConnect(bool autoconnect)  { settings.setValue("settings/automatic_connect", autoconnect); }
 
 		ChiakiVideoResolutionPreset GetResolution() const;
 		void SetResolution(ChiakiVideoResolutionPreset resolution);
