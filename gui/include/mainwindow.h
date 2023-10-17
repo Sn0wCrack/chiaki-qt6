@@ -14,7 +14,7 @@ class Settings;
 
 struct DisplayServer
 {
-	DiscoveryHost discovery_host;
+    DiscoveryHost discovery_host;
 	ManualHost manual_host;
 	bool discovered;
 

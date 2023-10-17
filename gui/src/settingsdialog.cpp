@@ -76,7 +76,7 @@ SettingsDialog::SettingsDialog(Settings *settings, QWidget *parent) : QDialog(pa
 	connect(dualsense_check_box, &QCheckBox::stateChanged, this, &SettingsDialog::DualSenseChanged);
 
     automatic_connect_check_box = new QCheckBox(this);
-    general_layout->addRow(tr("Automatically connect to PlayStation after clicking in GUI."), automatic_connect_check_box);
+    general_layout->addRow(tr("Automatically send wakeup to PlayStation after clicking in GUI."), automatic_connect_check_box);
     automatic_connect_check_box->setChecked(settings->GetAutomaticConnect());
     connect(automatic_connect_check_box, &QCheckBox::stateChanged, this, &SettingsDialog::AutomaticConnectChanged);
 
