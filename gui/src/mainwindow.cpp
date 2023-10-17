@@ -246,14 +246,6 @@ void MainWindow::ServerItemWidgetTriggered()
                 return;
         }
 
-        // Wait for up to 10 seconds after wakeup packet has been sent
-        time_t start, end;
-        time(&start);
-
-        do
-            time(&end);
-        while(difftime(end, start) <= 10);
-
 		QString host = server.GetHostAddr();
 		StreamSessionConnectInfo info(
 				settings,
