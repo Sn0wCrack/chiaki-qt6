@@ -29,6 +29,7 @@
 
 class QAudioOutput;
 class QAudioDevice;
+class QAudioSink;
 class QIODevice;
 class QKeyEvent;
 class Settings;
