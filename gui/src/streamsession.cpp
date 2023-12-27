@@ -408,7 +408,7 @@ void StreamSession::SendFeedbackState()
 void StreamSession::InitAudio(unsigned int channels, unsigned int rate)
 {
 	delete audio_output;
-	QAudioSink* audio_output = nullptr;
+	audio_output = nullptr;
 	audio_io = nullptr;
 
 	QAudioFormat audio_format = audio_out_device_info.preferredFormat();
@@ -416,7 +416,6 @@ void StreamSession::InitAudio(unsigned int channels, unsigned int rate)
 	audio_format.setChannelCount(channels);
 	audio_format.setSampleFormat(QAudioFormat::Int16);
 
-	QAudioDevice audio_device_info = audio_out_device_info;
 	if(!audio_device_info.isFormatSupported(audio_format))
 	{
 		CHIAKI_LOGE(log.GetChiakiLog(), "Audio Format with %u channels @ %u Hz not supported by Audio Device %s",
@@ -428,7 +427,7 @@ void StreamSession::InitAudio(unsigned int channels, unsigned int rate)
 	audio_output = new QAudioSink(audio_out_device_info, audio_format, this);
 	audio_output->setBufferSize(audio_buffer_size);
 
-    connect(audio_output, &QAudioSink::StateChanged, this, &StreamSession::AudioOutputStateChanged);
+    connect(audio_output, &QAudioSink::stateChanged, this, &StreamSession::AudioOutputStateChanged);
 
 	audio_io = audio_output->start();
 
