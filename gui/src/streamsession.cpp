@@ -416,11 +416,11 @@ void StreamSession::InitAudio(unsigned int channels, unsigned int rate)
 	audio_format.setChannelCount(channels);
 	audio_format.setSampleFormat(QAudioFormat::Int16);
 
-	if(!audio_device_info.isFormatSupported(audio_format))
+	if(!audio_out_device_info.isFormatSupported(audio_format))
 	{
 		CHIAKI_LOGE(log.GetChiakiLog(), "Audio Format with %u channels @ %u Hz not supported by Audio Device %s",
 					channels, rate,
-					audio_device_info.description().toLocal8Bit().constData());
+                    audio_out_device_info.description().toLocal8Bit().constData());
 		return;
 	}
 
@@ -432,7 +432,7 @@ void StreamSession::InitAudio(unsigned int channels, unsigned int rate)
 	audio_io = audio_output->start();
 
 	CHIAKI_LOGI(log.GetChiakiLog(), "Audio Device %s opened with %u channels @ %u Hz, buffer size %u",
-				audio_device_info.description().toLocal8Bit().constData(),
+                audio_out_device_info.description().toLocal8Bit().constData(),
 				channels, rate, audio_output->bufferSize());
 }
 
