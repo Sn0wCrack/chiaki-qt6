@@ -438,7 +438,7 @@ void StreamSession::InitAudio(unsigned int channels, unsigned int rate)
 
 void StreamSession::AudioOutputStateChanged(QAudio::State state)
 {
-    CHIAKI_LOGV(log.GetChiakiLog(), "Audio Device State Changed: %d, with error: %d", state, audio_output->error());
+    CHIAKI_LOGI(log.GetChiakiLog(), "Audio Device State Changed: %d, with error: %d", state, audio_output->error());
 }
 
 void StreamSession::InitHaptics()
