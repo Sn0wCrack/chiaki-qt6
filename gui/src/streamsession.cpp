@@ -10,6 +10,7 @@
 #include <QAudioOutput>
 #include <QAudioDevice>
 #include <QMediaDevices>
+#include <QAudio>
 #include <QAudioSink>
 
 #include <cstring>
@@ -426,11 +427,19 @@ void StreamSession::InitAudio(unsigned int channels, unsigned int rate)
 
 	audio_output = new QAudioSink(audio_out_device_info, audio_format, this);
 	audio_output->setBufferSize(audio_buffer_size);
+
+    connect(audio_output, &QAudioSink::StateChanged, this, &StreamSession::AudioOutputStateChanged);
+
 	audio_io = audio_output->start();
 
 	CHIAKI_LOGI(log.GetChiakiLog(), "Audio Device %s opened with %u channels @ %u Hz, buffer size %u",
 				audio_device_info.description().toLocal8Bit().constData(),
 				channels, rate, audio_output->bufferSize());
+}
+
+void StreamSession::AudioOutputStateChanged(QAudio::State state)
+{
+    CHIAKI_LOGV(log.GetChiakiLog(), "Audio Device State Changed: %d, with error: %d", state, audio_output->error());
 }
 
 void StreamSession::InitHaptics()
