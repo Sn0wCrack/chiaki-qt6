@@ -151,6 +151,7 @@ class StreamSession : public QObject
 	private slots:
 		void UpdateGamepads();
 		void SendFeedbackState();
+        void AudioOutputStateChanged(QAudio::State state);
 };
 
 Q_DECLARE_METATYPE(ChiakiQuitReason)
